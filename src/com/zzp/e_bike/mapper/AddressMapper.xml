@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.e_bike.mapper.AddressMapper" >
+    <select id="getAddress" resultType="Address">
+        SELECT * FROM address;
+    </select>
+    <delete id="deleteAddress" parameterType="Integer">
+        DELETE FROM address WHERE id = #{id};
+    </delete>
+    <insert id="addAddress" parameterType="Address">
+        INSERT INTO address VALUES (null, #{addressName});
+    </insert>
+    <update id="setAddress" parameterType="Address">
+        UPDATE address SET addressName = #{addressName} WHERE id = #{id};
+    </update>
+    <select id="getAdd" parameterType="Integer" resultType="String">
+        SELECT addressName FROM address WHERE id = #{addressId};
+    </select>
+</mapper>

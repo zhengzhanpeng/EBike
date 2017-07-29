@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" />
+	</head>
+
+	<body>
+		<div class="mui-content" style="padding: 10px;">
+			<div class="mui-input-group">
+			    <div class="mui-input-row">
+			        <label>姓名</label>
+			    	<input type="text" id="name" class="mui-input-clear" placeholder="请输入姓名">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>地址</label>
+			    	<input type="text" id="address" class="mui-input-clear" valueId="0" placeholder="请输入购车人住址">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>欠款</label>
+			    	<input type="text" id="money" class="mui-input-clear" placeholder="请输入当前欠款">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>车型</label>
+			    	<input type="text" id="bikeType" class="mui-input-clear" valueId="0" placeholder="请输入所购的车型">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>电话</label>
+			    	<input type="text" id="phone" class="mui-input-clear" placeholder="请输入联系电话">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>日期</label>
+			    	<input type="text" id="sellDate" class="mui-input-clear" placeholder="请输入出售日期">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>备注</label>
+			    	<textarea id="remark" placeholder="请输入备注"></textarea>
+			    </div>
+			</div>
+    	</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js" ></script>
+		<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.ready(function () {
+				$("#address").click(function () {
+					var addressPicker = new mui.PopPicker();
+					addressPicker.setData([{
+							value: 1, 
+							text: '王村'
+					}, {
+						value: 2,
+						text: '田村'
+					}, {
+						value: 3,
+						text: '王村'
+					}]);
+					addressPicker.show(function(rs) {
+					    $("#address").attr("valueId", rs[0].value).val(rs[0].text);
+					    addressPicker.dispose();
+					})
+					
+				})
+				$("#bikeType").click(function () {
+					var bikeTypePicker = new mui.PopPicker();
+					bikeTypePicker.setData([{
+							value: 1, 
+							text: '和顺4号'
+					}, {
+						value: 2,
+						text: '和顺4号'
+					}, {
+						value: 3,
+						text: '和顺4号'
+					}]);
+					bikeTypePicker.show(function(rs) {
+					    $("#bikeType").attr("valueId", rs[0].value).val(rs[0].text);
+					    bikeTypePicker.dispose();
+					})
+					
+				})
+				$("#sellDate").click(function () {
+					var dtPicker = new mui.DtPicker({
+						"type": "date"
+					});
+					dtPicker.show(function (rs) {
+						$("#sellDate").val(rs.text);
+						dtPicker.dispose();
+					});
+					
+				})
+			})
+		</script>
+	</body>
+
+</html>

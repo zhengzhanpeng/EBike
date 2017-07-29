@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.e_bike.mapper.OwnMapper">
+    <resultMap id="ownList" type="OwnUnique">
+        <id property="id" column="own_id"/>
+        <result property="bikeId" column="bike_bikeId"/>
+        <result property="colorId" column="color_colorId"/>
+        <result property="addressId" column="address_addressId"/>
+        <result property="bikeType" column="bike_bikeType"/>
+        <result property="bikeColor" column="color_bikeColor"/>
+        <result property="addressName" column="address_addressName"/>
+        <result property="name" column="own_name"/>
+        <result property="phone" column="own_phone"/>
+        <result property="money" column="own_money"/>
+        <result property="remark" column="own_remark"/>
+        <result property="sellDate" column="own_sellDate"/>
+        <collection property="ownMessages" ofType="ownMessage">
+            <id property="id" column="own_message_id"/>
+            <result property="remark" column="own_message_remark"/>
+            <result property="ownId" column="own_message_own_id"/>
+            <result property="money" column="own_message_money"/>
+            <result property="setDate" column="own_message_setDate"/>
+        </collection>
+    </resultMap>
+    <insert id="addOwn" parameterType="own" useGeneratedKeys="true">
+        INSERT INTO own (id, bikeId, colorId, addressId, name, phone, money
+        <if test="remark != null">, remark</if>
+        , sellDate, deleteState)
+        values
+        (null, #{bikeId}, #{colorId}, #{addressId}, #{name}, #{phone},
+        #{money}
+        <if test="remark != null">, #{remark}</if>
+        , #{sellDate}, 0);
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        UPDATE own SET deleteState = 1 WHERE id = #{id};
+    </delete>
+    <update id="setOwn" parameterType="own">
+        UPDATE own
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="addressId != null and addressId != ''">
+                addressId = #{addressId},
+            </if>
+            <if test="bikeId != null and bikeId != ''">
+                bikeId = #{bikeId},
+            </if>
+            <if test="colorId != null and colorId != ''">
+                colorId = #{colorId},
+            </if>
+            <if test="money != null and money != 0">
+                money = #{money},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="sellDate != null">
+                sellDate = #{sellDate},
+            </if>
+        </set>
+        WHERE id = #{id};
+    </update>
+    <select id="getOwns" resultMap="ownList">
+        SELECT o.id AS own_id, o.name AS own_name, o.phone AS own_phone, o.money AS own_money,
+        o.remark AS own_remark, o.sellDate AS own_sellDate, b.id AS bike_bikeId, a.id AS address_addressId,
+        c.id AS color_colorId, c.bikeColor AS color_bikeColor,
+        b.bikeType AS bike_bikeType, a.addressName AS address_addressName, om.id AS own_message_id,
+        om.remark AS own_message_remark, om.money AS own_message_money, om.setDate AS own_message_setDate,
+        om.ownId AS own_message_own_id
+        FROM own AS o
+        LEFT OUTER JOIN bike AS b ON b.id = o.bikeId
+        LEFT OUTER JOIN address AS a ON a.id = o.addressId
+        LEFT OUTER JOIN own_message AS om ON om.ownId = o.id
+        LEFT OUTER JOIN color AS c ON c.id = o.colorId
+        <where>
+            o.deleteState = 0
+            <if test="styleGet == 0">
+                AND o.money &gt; 0
+            </if>
+            <if test="styleGet != 0">
+                AND o.money &lt;= 0
+            </if>
+            <if test="str != null and str != ''">
+                AND (name LIKE CONCAT('%', #{str, jdbcType=VARCHAR}, '%') OR
+                phone LIKE CONCAT('%', #{str, jdbcType=VARCHAR}, '%') OR
+                a.addressName LIKE CONCAT('%', #{str, jdbcType=VARCHAR}, '%') OR
+                o.remark LIKE CONCAT('%', #{str, jdbcType=VARCHAR}, '%'))
+            </if>
+            <if test="order == 0">
+                ORDER BY o.money DESC
+            </if>
+            <if test="order == 1">
+                ORDER BY o.money
+            </if>
+            <if test="order == 2">
+                ORDER BY o.sellDate DESC
+            </if>
+            <if test="order == 3">
+                ORDER BY o.sellDate
+            </if>
+        </where>
+    </select>
+    <update id="repayOwn">
+        UPDATE own SET money = money - #{money, jdbcType=INTEGER}
+        WHERE id = #{id, jdbcType=INTEGER};
+    </update>
+    <select id="getOwn" parameterType="Integer" resultType="Own">
+        SELECT * FROM own WHERE id = #{id};
+    </select>
+    <update id="repayMoney">
+        UPDATE own SET money = money - #{money, jdbcType=INTEGER}
+        WHERE id = #{id, jdbcType=INTEGER};
+    </update>
+</mapper>

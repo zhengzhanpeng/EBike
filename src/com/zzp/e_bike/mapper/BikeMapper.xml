@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.e_bike.mapper.BikeMapper" >
+    <select id="get" parameterType="String" resultType="Bike">
+        SELECT * FROM bike
+        <if test="_parameter != null">
+        WHERE bikeType LIKE CONCAT('%', #{str}, '%');
+        </if>
+    </select>
+    <insert id="add" parameterType="Bike" >
+        INSERT INTO bike VALUES (null, #{bikeType});
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM bike WHERE id = #{id};
+    </delete>
+    <update id="set" parameterType="Bike">
+        UPDATE bike SET bikeType = #{bikeType} WHERE id = #{id};
+    </update>
+    <select id="getBike" parameterType="Integer" resultType="String">
+        SELECT bikeType FROM bike WHERE id = #{bikeId};
+    </select>
+</mapper>

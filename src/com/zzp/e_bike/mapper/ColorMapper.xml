@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.e_bike.mapper.ColorMapper" >
+    <select id="get" parameterType="String" resultType="Color">
+        SELECT * FROM color
+        <if test="_parameter != null">
+            WHERE colorType LIKE CONCAT('%', #{str}, '%');
+        </if>
+    </select>
+    <insert id="add" parameterType="Color" >
+        INSERT INTO color VALUES (null, #{bikeColor});
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM color WHERE id = #{id};
+    </delete>
+    <update id="set" parameterType="Color">
+        UPDATE color SET bikeColor = #{bikeColor} WHERE id = #{id};
+    </update>
+    <select id="getColor" parameterType="Integer" resultType="String">
+        SELECT bikeColor FROM color WHERE id = #{colorId};
+    </select>
+</mapper>

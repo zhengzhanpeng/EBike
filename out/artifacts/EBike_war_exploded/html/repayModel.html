@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" />
+	</head>
+
+	<body>
+		<div class="mui-content" style="padding: 10px;">
+		<label>还款金额：</label>
+    	<input type="text" id="money" class="mui-input-clear mui-input" placeholder="请输入本次还款的金额">
+
+        <label>还款日期：</label>
+    	<input type="text" id="repayDate" class="mui-input-clear" placeholder="请输入还款日期">
+
+    	<label>备注：</label>
+    	<textarea class="" id="remark" placeholder="请输入要记录的内容"></textarea>
+    	</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js" ></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.ready(function () {
+				$("#repayDate").click(function () {
+					var dtPicker = new mui.DtPicker({
+						"type": "date"
+					});
+					dtPicker.show(function (rs) {
+						$("#repayDate").val(rs.text);
+						dtPicker.dispose();
+					});
+					
+				})
+			})
+		</script>
+	</body>
+
+</html>

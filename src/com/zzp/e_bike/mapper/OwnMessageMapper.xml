@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.e_bike.mapper.OwnMessageMapper" >
+    <select id="get" parameterType="Integer" resultType="OwnMessage">
+        SELECT * FROM own_message WHERE ownId = #{ownId};
+    </select>
+    <insert id="add" parameterType="OwnMessage" >
+        INSERT INTO own_message VALUES (null, #{ownId}, #{remark}, #{money}, #{setDate});
+    </insert>
+</mapper>

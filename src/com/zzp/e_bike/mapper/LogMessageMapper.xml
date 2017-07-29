@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.e_bike.mapper.LogMessageMapper" >
+    <insert id="add" parameterType="LogMessage" >
+        INSERT INTO log_message VALUES (null, #{content}, #{setDate});
+    </insert>
+    <select id="get" parameterType="String" resultType="LogMessage">
+        SELECT * FROM log_message
+        <if test="_parameter != null">
+        WHERE content LIKE CONCAT('%', #{str}, '%')
+        </if>
+        ORDER BY setDate DESC;
+    </select>
+</mapper>
